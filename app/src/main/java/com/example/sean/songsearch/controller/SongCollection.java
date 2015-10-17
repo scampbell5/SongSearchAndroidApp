@@ -15,12 +15,14 @@ import java.util.Collections;
 public class SongCollection {
 
     private Song[] songs;
+    private int size;
 
     //Song collection takes a filename, reads in the contents of file, parses 'Artist', 'Title', 'Lyrics' into a new object<Song>.
     //Songs are stored in a temp ArrayList. After all contents of file have been read, sorts the temp ArrayList, initializes songs[] to size
     //of temp ArrayList, and assigns sorts contents to songs[].
     public SongCollection(BufferedReader songReader) {
         ArrayList<Song> tmpSongs = new ArrayList<>();
+        size = 0;
 
         //Test if file exists.
 
@@ -89,11 +91,12 @@ public class SongCollection {
                 }
                 //Creates new song and adds to list based on all information.
                 tmpSongs.add(new Song(tmpArtist,tmpTitle,tmpLyrics.toString()));
+                size++;
             }
 
             //Sorts temp ArrayList with songs, initializes size of songs[] and assigns temp ArrayList to song[] already sorted.
             Collections.sort(tmpSongs);
-            songs = new Song[tmpSongs.size()];
+            songs = new Song[size];
             tmpSongs.toArray(songs);
         }
         //If file does not exist, print error message and initialize songs[] to empty array.
@@ -110,10 +113,20 @@ public class SongCollection {
         // sort the songs array
     }
 
+    public SongCollection() {
+        size = 0;
+
+
+    }
+
     // return the songs array
     // this is used as the data source for building other data structures
     public Song[] getAllSongs() {
         return songs;
+    }
+
+    public int getSize() {
+        return size;
     }
 
 
@@ -122,7 +135,6 @@ public class SongCollection {
     public static void main(String[] args) {
         if (args.length == 0) {
             System.err.println("usage: prog songfile");
-            return;
         }
         /*
         SongCollection sc = new SongCollection(args[0]);
