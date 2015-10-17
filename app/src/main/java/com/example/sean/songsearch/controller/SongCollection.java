@@ -44,6 +44,7 @@ public class SongCollection {
                 }
 
                 //This portion retrieves the song title. Assumes the title is always on one line.
+                assert tmpString != null;
                 if (tmpString.contains("TITLE=")){
                     tmpTitle = tmpString.substring(7,tmpStringLength);
                     tmpString = songReader.readLine();

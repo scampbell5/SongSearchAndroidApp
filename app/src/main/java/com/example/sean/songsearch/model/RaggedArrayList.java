@@ -1,8 +1,5 @@
-package com.example.sean.songsearch.controller;
+package com.example.sean.songsearch.model;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.util.*;
 
 /*
@@ -22,10 +19,10 @@ import java.util.*;
  */
 public class RaggedArrayList<E> implements Iterable<E> {
     private static final int MINIMUM_SIZE = 4;    // must be even so when split get two equal pieces
-    public int size;
-    public Object[] l1Array;     // really is an array of L2Array, but compiler won't let me cast to that
-    public int l1NumUsed;
-    private Comparator<E> comp;
+    private int size;
+    private Object[] l1Array;     // really is an array of L2Array, but compiler won't let me cast to that
+    private int l1NumUsed;
+    private final Comparator<E> comp;
 
     // create an empty list
     // always have at least 1 second level array even if empty, makes code easier
@@ -44,6 +41,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
         public E[] items;
         public int numUsed;
 
+        @SuppressWarnings({"unchecked"})
         public L2Array(int capacity) {
             items = (E[]) new Object[capacity];  // you can't create an array of a generic type
             numUsed = 0;
@@ -59,6 +57,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
     // null out all references so garbage collector can grab them
     // but keep otherwise empty l1Array and 1st L2Array
     // (DONE)
+    @SuppressWarnings({"unchecked"})
     public void clear() {
         size = 0;
         Arrays.fill(l1Array, 1, l1Array.length, null);  // clear all but first l2 array
@@ -81,6 +80,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
         }
 
         // test if two ListLoc's are to the same location (done)
+        @SuppressWarnings({"unchecked"})
         public boolean equals(Object otherObj) {
             if (getClass() != otherObj.getClass())  // not really needed since it will be ListLoc
                 return false;
@@ -93,6 +93,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
         // when it moves past the very last entry it will be 1 index past the last value in the used level 2 array
         // can be used internally to scan through the array for sublist
         // also can be used to implement the iterator
+        @SuppressWarnings({"unchecked"})
         public void moveToNext() {
             //While loc.Level2Index < numOfUsed -1; Keep incrementing Level2Index.
             if (this.level2Index < ((L2Array) l1Array[this.level1Index]).numUsed - 1) {
@@ -146,14 +147,15 @@ public class RaggedArrayList<E> implements Iterable<E> {
     //Returns the position where item should be if item is not found.
     //Uses binary search to search through the outer (L1Arrays) to find the inner L2Array where item should be
     //Uses binary search on the L2Array, after locating location, returns a ListLocation for the item.
-    public ListLoc findFront(E item) {
+    @SuppressWarnings({"unchecked"})
+    private ListLoc findFront(E item) {
         ListLoc insertLocation = new ListLoc(0, 0);
         int l1Low = 0;
         int l1Mid = 0;
         int l1High = l1NumUsed - 1;
         int l2Low = 0;
         int l2Mid = 0;
-        int l2High = 0;
+        int l2High;
         L2Array currentArray = (L2Array) l1Array[l1Mid];
 
         //Edge case to check to see if L1 is empty. Returns the first spot.
@@ -258,14 +260,15 @@ public class RaggedArrayList<E> implements Iterable<E> {
     //Returns the position where item should be if item is not found.
     //Uses binary search to search through the outer (L1Arrays) to find the inner L2Array where item should be
     //Uses binary search on the L2Array, after locating location, returns a ListLocation for the item.
-    public ListLoc findEnd(E item) {
+    @SuppressWarnings({"unchecked"})
+    private ListLoc findEnd(E item) {
         int l1Low = 0;
         int l1High = l1NumUsed - 1;
         int l1Mid = 0;
-        int compare = 0;
-        int l2Mid = 0;
+        int compare;
+        int l2Mid;
         int l2Low = 0;
-        int l2High = 0;
+        int l2High;
         ListLoc insertLocation = new ListLoc(0, 0);
 
         L2Array currentArray = (L2Array) l1Array[l1Mid];
@@ -326,6 +329,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * add object after any other matching values
      * findEnd will give the insertion position
      */
+    @SuppressWarnings({"unchecked"})
     public boolean add(E item) {
 
         //Location used to find insertion point of new item.
@@ -397,6 +401,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
     /**
      * check if list contains a match
      */
+    @SuppressWarnings({"unchecked"})
     public boolean contains(E item) {
         //Finds the index of the item. findFront returns where it is, or where it should be in list.
         //Have to perform one compare to verify item == item in L2Array
@@ -410,6 +415,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * @param a - an array of the actual type and of the correct size
      * @return the filled in array
      */
+    @SuppressWarnings({"unchecked"})
     public E[] toArray(E[] a) {
 
         //If size==0, return empty array.
@@ -439,8 +445,9 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * @param toElement
      * @return the sublist
      */
+    @SuppressWarnings({"unchecked"})
     public RaggedArrayList<E> subList(E fromElement, E toElement) {
-        RaggedArrayList<E> result = new RaggedArrayList<E>(comp);
+        RaggedArrayList<E> result = new RaggedArrayList<>(comp);
         //Find beginning item location, endItem location.
         ListLoc locFront = findFront(fromElement);
         ListLoc locEnd = findFront(toElement);
@@ -468,7 +475,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
      * it starts at (0,0) and finishes with index2 1 past the last item in the last block
      */
     private class Itr implements Iterator<E> {
-        private ListLoc loc;
+        private final ListLoc loc;
 
         /*
          * create iterator at start of list

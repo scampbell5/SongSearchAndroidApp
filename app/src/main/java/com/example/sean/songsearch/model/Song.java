@@ -1,5 +1,7 @@
 package com.example.sean.songsearch.model;
 
+import android.support.annotation.NonNull;
+
 import java.util.*;
 
 /*
@@ -7,7 +9,9 @@ import java.util.*;
  */
 public class Song implements Comparable<Song> {
 
-    private String artist, title, lyrics;
+    private final String artist;
+    private final String title;
+    private final String lyrics;
 
 
     // constructor
@@ -35,11 +39,13 @@ public class Song implements Comparable<Song> {
         return artist;
     }
 
-    public String getLyrics() {
+    @SuppressWarnings("WeakerAccess")
+    private String getLyrics() {
         return lyrics;
     }
 
-    public String getTitle() {
+    @SuppressWarnings("WeakerAccess")
+    private String getTitle() {
         return title;
     }
 
@@ -54,7 +60,8 @@ public class Song implements Comparable<Song> {
      * used for sorting and searching the song array
      * if two songs have the same artist and title they are considered the same
      */
-    public int compareTo(Song song2) {
+    @Override
+    public int compareTo(@NonNull Song song2) {
 
         int retVal = this.artist.compareToIgnoreCase(song2.artist);
 

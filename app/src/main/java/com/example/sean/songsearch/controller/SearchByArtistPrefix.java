@@ -1,5 +1,6 @@
 package com.example.sean.songsearch.controller;
 
+import com.example.sean.songsearch.controller.SongCollection;
 import com.example.sean.songsearch.model.CmpCnt;
 import com.example.sean.songsearch.model.Song;
 
@@ -12,7 +13,7 @@ import java.util.*;
  */
 public class SearchByArtistPrefix {
 
-    private Song[] songs;  // keep a direct reference to the song array
+    private final Song[] songs;  // keep a direct reference to the song array
     private int numberOfCompares = 0;
 
     public SearchByArtistPrefix(SongCollection sc) {
@@ -119,7 +120,6 @@ public class SearchByArtistPrefix {
     public static void main(String[] args) {
         if (args.length == 0) {
             System.err.println("usage: prog songfile [search string]");
-            return;
         }
 
         /*

@@ -1,7 +1,5 @@
 package com.example.sean.songsearch.model;
 
-import java.util.Comparator;
-
 /**
  * CmpCnt.java
  * Bob Boothe 2015
@@ -25,7 +23,7 @@ import java.util.Comparator;
  * using the same comparator. 
  */
 public class CmpCnt {
-   protected int cmpCnt;
+   int cmpCnt;
 
    // constructor initializes the counter to zero
    CmpCnt(){

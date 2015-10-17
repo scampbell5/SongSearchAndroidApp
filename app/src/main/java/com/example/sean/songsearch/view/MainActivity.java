@@ -22,13 +22,12 @@ import com.example.sean.songsearch.model.Song;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity {
 
-    SongCollection sc;
+    private SongCollection sc;
 
     public void searchForTitle(View view){
         EditText searchedText = (EditText) findViewById(R.id.editText);
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
                 long stopTime = System.nanoTime();
                 long timeTook = stopTime - startTime;
                 timeTook = TimeUnit.MILLISECONDS.convert(timeTook, TimeUnit.NANOSECONDS);
-                Adapter temp = new ArrayAdapter<Song>(this,android.R.layout.simple_list_item_1,byTitleResult);
+                Adapter temp = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, byTitleResult);
                 searchedTime.setText(String.valueOf(timeTook) + " MS");
                 displayResults.setAdapter((ListAdapter) temp);
             }
@@ -76,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 long stopTime = System.nanoTime();
                 long timeTook = stopTime - startTime;
                 timeTook = TimeUnit.MILLISECONDS.convert(timeTook, TimeUnit.NANOSECONDS);
-                Adapter temp = new ArrayAdapter<Song>(this,android.R.layout.simple_list_item_1,byTitleResult);
+                Adapter temp = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, byTitleResult);
                 searchedTime.setText(String.valueOf(timeTook) + " MS");
                 displayResults.setAdapter((ListAdapter) temp);
             }
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    protected void buildSongCollection(String siteAddress){
+    private void buildSongCollection(String siteAddress) {
         try {
             // Create a URL for the desired page
             URL url = new URL(siteAddress);
@@ -93,8 +92,6 @@ public class MainActivity extends AppCompatActivity {
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
             sc = new SongCollection(reader);
             reader.close();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }

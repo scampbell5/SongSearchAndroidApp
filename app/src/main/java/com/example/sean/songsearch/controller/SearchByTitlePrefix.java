@@ -1,16 +1,15 @@
 package com.example.sean.songsearch.controller;
 
+import com.example.sean.songsearch.controller.SongCollection;
+import com.example.sean.songsearch.model.RaggedArrayList;
 import com.example.sean.songsearch.model.Song;
 
 import java.util.Comparator;
 
-/**
- * Created by Sean on 10/12/15.
- */
 public class SearchByTitlePrefix {
 
-    Comparator<Song> cmpTitle = new Song.CmpTitle();
-    RaggedArrayList<Song> songs = new RaggedArrayList<>(cmpTitle);
+    private Comparator<Song> cmpTitle = new Song.CmpTitle();
+    private RaggedArrayList<Song> songs = new RaggedArrayList<>(cmpTitle);
 
     public SearchByTitlePrefix(SongCollection sc) {
         //Iterates through and populates the RaggedArrayList with all songs.
@@ -45,7 +44,6 @@ public class SearchByTitlePrefix {
     public static void main(String[] args) {
         if (args.length == 0) {
             System.err.println("usage: prog songfile [search string]");
-            return;
         }
 
         /*
