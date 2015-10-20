@@ -48,9 +48,9 @@ public class MainActivity extends AppCompatActivity {
             }else{
                 long stopTime = System.nanoTime();
                 long timeTook = stopTime - startTime;
-                timeTook = TimeUnit.MILLISECONDS.convert(timeTook, TimeUnit.NANOSECONDS);
+                double timeTakenInSeconds = (double)timeTook / 1000000000.0;
                 Adapter temp = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, byTitleResult);
-                searchedTime.setText(String.valueOf(timeTook) + " MS");
+                searchedTime.setText("Search returned " + byTitleResult.length + " results and took " + String.format("%.3f", timeTakenInSeconds) + " seconds.");
                 displayResults.setAdapter((ListAdapter) temp);
             }
 
@@ -72,17 +72,17 @@ public class MainActivity extends AppCompatActivity {
         if (!searchText.isEmpty() && sc.getSize() > 0) {
             long startTime = System.nanoTime();
             SearchByArtistPrefix sbap = new SearchByArtistPrefix(sc);
-            Song[] byTitleResult = sbap.search(searchText);
-            if (byTitleResult.length == 0){
+            Song[] byArtistResult = sbap.search(searchText);
+            if (byArtistResult.length == 0){
                 displayResults.setAdapter(null);
                 searchedTime.setText("");
                 Toast.makeText(getApplicationContext(), "No search results found.", Toast.LENGTH_SHORT).show();
             }else{
                 long stopTime = System.nanoTime();
                 long timeTook = stopTime - startTime;
-                timeTook = TimeUnit.MILLISECONDS.convert(timeTook, TimeUnit.NANOSECONDS);
-                Adapter temp = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, byTitleResult);
-                searchedTime.setText(String.valueOf(timeTook) + " MS");
+                double timeTakenInSeconds = (double)timeTook / 1000000000.0;
+                Adapter temp = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, byArtistResult);
+                searchedTime.setText("Search returned " + byArtistResult.length + " results and took " + String.format("%.3f",timeTakenInSeconds) + " seconds.");
                 displayResults.setAdapter((ListAdapter) temp);
             }
         }else{
