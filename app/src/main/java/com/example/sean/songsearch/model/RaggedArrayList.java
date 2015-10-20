@@ -453,7 +453,7 @@ public class RaggedArrayList<E> implements Iterable<E> {
         ListLoc locEnd = findFront(toElement);
 
         //While two locations do not equal eachother, iterate through adding each item to new array.
-        while (!locFront.equals(locEnd)) {
+        while (!locFront.equals(locEnd) && locFront.level1Index < l1NumUsed) {
             result.add(((L2Array) l1Array[locFront.level1Index]).items[locFront.level2Index]);
             locFront.moveToNext();
         }
